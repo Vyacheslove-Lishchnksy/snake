@@ -1,6 +1,6 @@
 import { drawFunctionArgumants } from "../components/AppBody";
 import { green, red } from "./setaps/colorama/colors";
-import deepEqual from "./setaps/deepEqual/deepEqual";
+import { isDeepEqual } from "./setaps/deepEqual";
 import { getRandom } from "./setaps/ramdom/getRandom";
 import Coordinate2D from "./setaps/vector-math/Coordinate2D";
 import Vector2D from "./setaps/vector-math/Vector2D";
@@ -9,6 +9,15 @@ import Board from "./Snake/Board";
 import FinderWay from "./Snake/FinderWay";
 import Snake from "./Snake/Snake";
 import UserMover from "./Snake/UserMover";
+
+let snake: Snake;
+let head: Coordinate2D;
+let directionHead: Vector2D;
+let aplles: Apple[] = [];
+let board: Board;
+let finderWay: FinderWay;
+let userMover: UserMover;
+let isUserMover = false;
 
 export const before = ({ matrix }: drawFunctionArgumants) => {
   head = new Coordinate2D({
@@ -24,14 +33,6 @@ export const before = ({ matrix }: drawFunctionArgumants) => {
   userMover = new UserMover(snake, board);
 };
 
-let snake: Snake;
-let head: Coordinate2D;
-let directionHead: Vector2D;
-let aplles: Apple[] = [];
-let board: Board;
-let finderWay: FinderWay;
-let userMover: UserMover;
-
 export const draw = ({ matrix, pressNow }: drawFunctionArgumants) => {
   matrix.off();
   if (aplles.length === 0) {
@@ -46,13 +47,20 @@ export const draw = ({ matrix, pressNow }: drawFunctionArgumants) => {
     matrix.drawer.drawPixel(aplle.position.toObject(), red);
   });
 
-  finderWay.go();
-  // userMover.go(pressNow)
+  if (pressNow === "Space") {
+    isUserMover = !isUserMover;
+  }
+
+  if (isUserMover) {
+    userMover.go(pressNow);
+  } else {
+    finderWay.go();
+  }
 
   snake.move();
 
   if (
-    deepEqual(snake.positionHead().toObject(), aplles[0].position.toObject())
+    isDeepEqual(snake.positionHead().toObject(), aplles[0].position.toObject())
   ) {
     snake.eatApple(aplles[0]);
     aplles.pop();

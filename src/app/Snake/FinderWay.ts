@@ -4,7 +4,6 @@ import Board from "./Board";
 import Mover from "./Mover";
 import Snake from "./Snake";
 
-
 class FinderWay {
   private snake: Snake;
   private board: Board;
@@ -21,7 +20,7 @@ class FinderWay {
     Mover.directions.RIGHT,
     Mover.directions.DOWN,
     Mover.directions.LEFT,
-  ]
+  ];
 
   public go() {
     let direction = this.findWayToTheApple();
@@ -34,7 +33,7 @@ class FinderWay {
           direction = this.directions[i];
           break;
         }
-      };
+      }
     }
     this.snake.chengeDirection(direction);
   }
@@ -42,8 +41,7 @@ class FinderWay {
   private findWayToTheApple() {
     const aim = this.apples[0].position;
     let direction;
-    const lenght = this.snake.positionHead()
-      .toSub(aim.toObject());
+    const lenght = this.snake.positionHead().toSub(aim.toObject());
     if (Math.abs(lenght.x) >= Math.abs(lenght.y)) {
       if (aim.x >= this.snake.positionHead().x) {
         direction = Mover.directions.RIGHT;
@@ -57,14 +55,15 @@ class FinderWay {
         direction = Mover.directions.UP;
       }
     }
-    return direction
+    return direction;
   }
 
   private canMove(direction: Vector2D): boolean {
     const newPosition = this.snake.positionHead().toAdd(direction);
-    return !this.snake.isSnakeBody(newPosition) && !this.board.isWoll(newPosition);
+    return (
+      !this.snake.isSnakeBody(newPosition) && !this.board.isWoll(newPosition)
+    );
   }
-
 }
 
 export default FinderWay;

@@ -14,10 +14,10 @@ interface propsForAppBody {
 export interface drawFunctionArgumants {
   matrix: Matrix;
   printer: React.Dispatch<React.SetStateAction<backgroundColor[]>>;
-  pressNow: number;
+  pressNow: string;
 }
 
-let pressNow: number = -1;
+let pressNow: string = "";
 
 const AppBody = ({
   matrix,
@@ -25,7 +25,7 @@ const AppBody = ({
   printer,
 }: propsForAppBody): JSX.Element => {
   const handleKeyDown = async (event: KeyboardEvent) => {
-    pressNow = event.keyCode;
+    pressNow = event.code;
   };
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const AppBody = ({
     const interval = setInterval(() => {
       draw({ matrix, printer, pressNow });
       printer([...matrix.body]);
-      pressNow = -1;
+      pressNow = "";
     }, matrix.timeFrame);
 
     return () => clearInterval(interval);

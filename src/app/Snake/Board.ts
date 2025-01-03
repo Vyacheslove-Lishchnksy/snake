@@ -19,15 +19,15 @@ class Board {
       nextPosition.x >= this.woll.RIGHT ||
       nextPosition.y <= this.woll.UP ||
       nextPosition.y >= this.woll.DOWN
-    )
+    );
   }
 }
 
 interface IWoll {
-  UP: number,
-  DOWN: number,
-  LEFT: number,
-  RIGHT: number,
-};
+  UP: number;
+  DOWN: number;
+  LEFT: number;
+  RIGHT: number;
+}
 
 export default Board;

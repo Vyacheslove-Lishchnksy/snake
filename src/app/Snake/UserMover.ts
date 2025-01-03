@@ -11,7 +11,6 @@ class UserMover {
   constructor(snake: Snake, board: Board) {
     this.snake = snake;
     this.board = board;
-
   }
   public go(key: string) {
     const newDirection = this.getDirctionByKey(key);
@@ -43,18 +42,25 @@ class UserMover {
   }
 
   private isDeadZone(): boolean {
-    return this.snake.isSnakeBody(this.snake.positionHead().toAdd(this.snake.directionHead))
-      || this.board.isWoll(this.snake.positionHead());
+    return (
+      this.snake.isSnakeBody(
+        this.snake.positionHead().toAdd(this.snake.directionHead)
+      ) || this.board.isWoll(this.snake.positionHead())
+    );
   }
 
   private canIMove(direction: Vector2D): boolean {
     let result = true;
-    if (deepEqual(direction.toObject(), this.snake.directionHead.toMult(-1).toObject())) {
+    if (
+      deepEqual(
+        direction.toObject(),
+        this.snake.directionHead.toMult(-1).toObject()
+      )
+    ) {
       result = false;
     }
     return result;
   }
-
 }
 
 export default UserMover;
